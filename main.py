@@ -7,11 +7,9 @@ from TTS.api import TTS
 import os
 import io
 
-
-def text_to_speech(text, speaker_wav, lang):
-    # Usa un buffer di memoria invece di un file temporaneo
+def text_to_speech(tts, text, speaker_wav, lang):
     buffer = io.BytesIO()
-    tts.tts_to_file(text=text, speaker_wav=speaker_wav, language=lang, file_path=buffer)
+    tts.tts_to_file(text=text, speaker_wav=speaker_wav, language=lang, file_path=buffer, temperature=0.8)
     buffer.seek(0)
     return AudioSegment.from_wav(buffer)
 
@@ -31,17 +29,20 @@ if __name__ == "__main__":
     model = "tts_models/multilingual/multi-dataset/xtts_v2"
     tts = TTS(model).to(device)
 
-    for i in range(len(captions)):
-        # Rimuovi i ritorni a capo dal testo
-        text = captions[i].text.replace('\n', ' ')
-        # divide le frasi se c'è un punto 
-        sentences = re.split(r'(?<=[.!?]) +', text)
-        for sentence in sentences:
-            speech = text_to_speech(sentence, args.speaker_wav, args.lang)
-            final_audio += speech
+    total_duration = 0
 
-        if i > 0 and captions[i].start_in_seconds != captions[i-1].end_in_seconds:
-            silence_duration = (captions[i].start_in_seconds - captions[i-1].end_in_seconds) * 1000
+for i in range(len(captions)):
+    text = captions[i].text.replace('\n', ' ')
+    sentences = re.split(r'(?<=[.!?]) +', text)
+    for sentence in sentences:
+        speech = text_to_speech(tts, sentence, args.speaker_wav, args.lang)
+        speech_duration = len(speech)
+        silence_duration = (captions[i].start_in_seconds * 1000) - total_duration
+        if silence_duration > 0:
             final_audio += silence(silence_duration)
+            total_duration += silence_duration
+        final_audio += speech
+        total_duration += speech_duration
+
 
     final_audio.export('output.wav', format='wav')

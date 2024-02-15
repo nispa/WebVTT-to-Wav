@@ -1,4 +1,4 @@
-webvtt
+webvtt-py
 torch
 argparse
 pydub
