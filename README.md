@@ -17,9 +17,10 @@ After cloning the project...
 Run the script `run.bat yourfile.vtt speaker.wav en`, replacing "yourfile.vtt" with the path of your VTT file and `speaker.wav` with the path of the wav file of the speaker's voice to clone and the language to use (`en` for english, `it` for italian, etc). A wav file of at least 7 seconds of clear voice is needed to clone.
 
 ### Manual
-1. Install the necessary dependencies with `pip install -r requirements.txt`.
-2. From within the directory, activate the venv environment using `python -m venv venv`
-3. Activate the virtual environment, for example, on windows it's `.\venv\Scripts\activate`
+
+1. From within the directory, activate the venv environment using `python -m venv venv`
+2. Activate the virtual environment, for example, on windows it's `.\venv\Scripts\activate`
+3. Install the necessary dependencies with `pip install -r requirements.txt`.
 4. Run the script with `python main.py yourfile.vtt speaker.wav en`, replacing "yourfile.vtt" with the path of your VTT file and `speaker.wav` with the path of the wav file of the speaker's voice to clone and the language to use (`en` for english, `it` for italian, etc). A wav file of at least 7 seconds of clear voice is needed to clone.
 
 
