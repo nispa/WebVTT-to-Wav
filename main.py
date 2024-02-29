@@ -26,23 +26,24 @@ if __name__ == "__main__":
     final_audio = AudioSegment.empty()
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    model = "tts_models/multilingual/multi-dataset/xtts_v2"
+    model = "tts_models/multilingual/multi-dataset/your_tts"
+   # model = "tts_models/multilingual/multi-dataset/xtts_v2"
     tts = TTS(model).to(device)
-
+    
     total_duration = 0
 
-for i in range(len(captions)):
-    text = captions[i].text.replace('\n', ' ')
-    sentences = re.split(r'(?<=[.!?]) +', text)
-    for sentence in sentences:
-        speech = text_to_speech(tts, sentence, args.speaker_wav, args.lang)
-        speech_duration = len(speech)
-        silence_duration = (captions[i].start_in_seconds * 1000) - total_duration
-        if silence_duration > 0:
-            final_audio += silence(silence_duration)
-            total_duration += silence_duration
-        final_audio += speech
-        total_duration += speech_duration
+    for i in range(len(captions)):
+        text = captions[i].text.replace('\n', ' ')
+        sentences = re.split(r'(?<=[.!?]) +', text)
+        for sentence in sentences:
+            speech = text_to_speech(tts, sentence, args.speaker_wav, args.lang)
+            speech_duration = len(speech)
+            silence_duration = (captions[i].start_in_seconds * 1000) - total_duration
+            if silence_duration > 0:
+                final_audio += silence(silence_duration)
+                total_duration += silence_duration
+            final_audio += speech
+            total_duration += speech_duration
 
-
-    final_audio.export('output.wav', format='wav')
+        output_filename = os.path.splitext(os.path.basename(args.vtt_file))[0] + os.path.splitext(os.path.basename(args.speaker_wav))[0] + "_" + args.lang + '.wav'
+        final_audio.export(output_filename, format='wav')

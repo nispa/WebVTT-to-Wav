@@ -1,14 +1,11 @@
-# File di configurazione di Python
+# Python conf files
 *.pyc
 *.pyo
 *.pyd
 __pycache__
 
-# Ambienti virtuali
+# virtual enviroment files
 venv/
 
-# File temporanei
-temp.wav
-
-# File di output
-output.wav
+# Output Files
+*.wav

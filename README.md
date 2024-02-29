@@ -2,12 +2,12 @@
 
 This project contains a Python script that converts VTT (WebVTT) subtitles files into WAV audio files using a speech synthesis model.
 
-In this script, TTS and the `xtts_v2` model will be used.
+In this script, you can use every CoquiTTS models supported (`YourTTS`, `xtts_v2`, etc).
 
 ## Requirements
 
 - Python 3.6 or higher
-- Python Libraries: `webvtt`, `torch`, `argparse`, `pydub`, `TTS`
+- Python Libraries: `webvtt-py`, `torch`, `argparse`, `pydub`, `TTS`
 
 ## Usage
 
